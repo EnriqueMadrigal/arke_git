@@ -45,7 +45,10 @@ Agregar
              <div class='clearfix'></div>              
                     
              
-             <br/>
+           <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>         
+             <h5><strong>Información de la herramienta:</strong></h5> 
+ <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
+ 
              
                  <div class="form-group @if ($errors->has('clave')) has-error @endif">
         {!! Form::label('label1', 'Clave:',['class' => 'col-md-1 control-label']); !!}
@@ -70,7 +73,7 @@ Agregar
  <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
  
                        <div class="form-group @if ($errors->has('desc')) has-error @endif">
-        {!! Form::label('label1', 'Marca:',['class' => 'col-md-1 control-label']); !!}
+        {!! Form::label('label1', 'Marca:',['class' => 'col-md-2 control-label']); !!}
          <div class="col-md-4">
         {!! Form::text('marca', '', ['class' => 'form-control']); !!}
          @if ($errors->has('marca')) <p class="help-block">{{ $errors->first('marca') }}</p> @endif
@@ -82,7 +85,7 @@ Agregar
              
  
                <div class="form-group @if ($errors->has('modelo')) has-error @endif">
-        {!! Form::label('label1', 'Modelo:',['class' => 'col-md-1 control-label']); !!}
+        {!! Form::label('label1', 'Modelo:',['class' => 'col-md-2 control-label']); !!}
         <div class="col-md-4">
         {!! Form::text('modelo', '', ['class' => 'form-control']); !!}
          @if ($errors->has('modelo')) <p class="help-block">{{ $errors->first('modelo') }}</p> @endif
@@ -126,7 +129,26 @@ Agregar
 </div>
 </div>     
                     <div class='clearfix'></div>          
+ <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
  
+  <div class="form-group">
+{!! Form::label('label22', 'Responsable:', ['class' => 'col-md-3 control-label']); !!}
+<div class="col-md-4">
+{!! Form::select('id_responsable', $responsables, 1, ['class' => 'form-control']); !!}
+</div>
+</div>     
+                    <div class='clearfix'></div> 
+ <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
+ 
+                  <div class="form-group">
+{!! Form::label('label22', 'Ubicación de la herramienta:', ['class' => 'col-md-4 control-label']); !!}
+<div class="col-md-4">
+{!! Form::select('id_obra', $ubicaciones, 1, ['class' => 'form-control']); !!}
+</div>
+</div>     
+                    <div class='clearfix'></div>          
+  <br/>
+  
  <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>                     
                     
          <div class="form-group @if ($errors->has('costo')) has-error @endif">
@@ -149,10 +171,13 @@ Agregar
 
   <div class='clearfix'></div>  <br/>
   
+   
+  
+  
   <div class="form-group">
                 
         {!! Form::label('label1', 'Supervisor y Fecha:'); !!}
-        {!! Form::date('name', \Carbon\Carbon::now()); !!}
+        {!! Form::date('supervisor', \Carbon\Carbon::now()); !!}
         
         
                     </div>

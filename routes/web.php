@@ -24,6 +24,7 @@ Route::get('catalogos','CatalogosController@index')->name('catalogos');
 Route::get('obras','ObrasController@index')->name('obras');
 Route::get('responsables','ResponsablesController@index')->name('responsables');
 Route::get('herramientas','HerramientasController@index')->name('herramientas');
+Route::get('ubicaciones','UbicacionesController@index')->name('ubicaciones');
 
    
 //Catalogos
@@ -46,6 +47,10 @@ Route::get('deleteCatalogo/{id}',['uses' =>'CatalogosController@deleteCatalogo']
  Route::get('editHerramienta/{id}',['uses' =>'HerramientasController@editHerramienta'])->name('editHerramienta');
  Route::get('agregarHerramienta',['uses' =>'HerramientasController@agregarHerramienta'])->name('agregarHerramienta');
  
+ //Ubicaciones
+ Route::get('cambiarHerramienta/{id}',['uses' =>'UbicacionesController@cambiarHerramienta'])->name('cambiarHerramienta');
+ Route::get('verHistorial/{id}',['uses' =>'UbicacionesController@verHistorial'])->name('verHistorial');
+ 
  
  
  // Funciones
@@ -59,8 +64,12 @@ Route::get('deleteCatalogo/{id}',['uses' =>'CatalogosController@deleteCatalogo']
     Route::post('modificar_responsable',array('as'=>'modificar','uses'=>'ResponsablesController@modificar'));
     Route::post('agregar_responsable',array('as'=>'modificar','uses'=>'ResponsablesController@agregar')) ;
     
-     Route::post('modificar_herramienta',array('as'=>'modificar','uses'=>'HerramientasController@modificar'));
-    Route::post('agregar_herramienta',array('as'=>'modificar','uses'=>'HerramientasController@agregar')) ;
+    Route::post('modificar_herramienta',array('as'=>'modificar','uses'=>'HerramientasController@modificar'));
+    Route::post('agregar_herramienta',array('as'=>'agregar','uses'=>'HerramientasController@agregar'));
+    Route::post('agregar_imagen',array('as'=>'agregarImagen','uses'=>'HerramientasController@agregarImagen'));
+    
+     Route::post('cambiar_ubicacion',array('as'=>'cambiarUbicacione','uses'=>'UbicacionesController@cambiar'));
+    
 /*
  Route::get('editCatalogo/{id}', function ($id) {
     return 'User '.$id;

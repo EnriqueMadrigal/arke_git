@@ -19,6 +19,8 @@ class CreateHerramientaFotosTable extends Migration
             $table->string('archivo');
             $table->string('type');
             $table->integer('size');
+            $table->string('title')->nullable();
+            $table->string('description')->nullable();
         });
     }
 

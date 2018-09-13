@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeCapacidadToHerramientas extends Migration
+class AddUbicacionHerramientas extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class ChangeCapacidadToHerramientas extends Migration
      */
     public function up()
     {
-         Schema::table('herramientas', function($table) {
-        $table->string('capacidad')->nullable()->change();
-        });
+         Schema::table('ubicacion__herramientas', function($table) {
+
+         $table->integer("id_responsable")->default(0);
+
+
+    });
         
     }
 

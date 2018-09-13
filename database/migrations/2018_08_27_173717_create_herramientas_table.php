@@ -25,6 +25,8 @@ class CreateHerramientasTable extends Migration
             $table->integer('cantidad')->default(1);
             $table->decimal('costo',8,2)->default(0.0);
             $table->date('supervisor')->nullable();
+            $table->integer("id_obra")->default(1);
+            $table->integer("id_responsable")->default(0);
               
             
             $table->timestamps();

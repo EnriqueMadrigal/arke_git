@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMarcaToHerramientas extends Migration
+class AddUbicacionToHerramientas extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,12 @@ class AddMarcaToHerramientas extends Migration
     public function up()
     {
         //
-        Schema::table('herramientas', function($table) {
-        $table->string('marca')->default("");
-        });
+          Schema::table('herramientas', function($table) {
+
+         $table->integer("id_ubicacion")->default(1);
+
+
+    });
     }
 
     /**

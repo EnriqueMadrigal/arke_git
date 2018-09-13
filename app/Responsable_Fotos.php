@@ -12,6 +12,6 @@ class Responsable_Fotos extends Model
    public $timestamps = false;
     
       protected $fillable = [
-        'id_responsable', 'archivo','type','size',
+        'id_responsable', 'archivo','type','size'
     ];
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTipoToHerramientas extends Migration
+class AddIdubicacionToHerramientas extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,12 @@ class AddTipoToHerramientas extends Migration
     public function up()
     {
         //
-        Schema::table('herramientas', function($table) {
-       $table->integer('id_tipo')->default(1);
-        });
-        
-        
+         Schema::table('herramientas', function($table) {
+
+         $table->integer("id_ubicacion")->default(1);
+
+
+    });
     }
 
     /**

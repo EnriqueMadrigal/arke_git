@@ -10,13 +10,22 @@
 
     <title>Arke</title>
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+       
+               <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+             <link href="{{ asset('assets/css/jquery-ui.css') }}" rel="stylesheet">
+             <link href="{{ asset('assets/css/wickedpicker.css') }}" rel="stylesheet">
+             
+            
+ 
+	<!-- Fonts -->
+	<link href='//fonts.googleapis.com/css?family=Raleway:300,400,600)' rel='stylesheet' type='text/css'>
+ 
+    
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -37,7 +46,15 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                      @guest
+                           
+                        @else
+                        <li><a href="{{ route('obras') }}">Obras</a></li>
+                        <li><a href="{{ route('responsables') }}">Responsables</a></li>
+                            <li><a href="{{ route('catalogos') }}">Tipos de herramientas</a></li>
+                            <li><a href="{{ route('herramientas') }}">Herramientas</a></li>
+                            <li><a href="{{ route('ubicaciones') }}">Cambios de ubicación</a></li>
+                        @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -57,7 +74,7 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            Salir
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -68,19 +85,7 @@
                             </li>
                         @endguest
                     </ul>
-					 <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-left">
-                        <!-- Authentication Links -->
-                        @guest
-                           
-                        @else
-                        <li><a href="{{ route('obras') }}">Obras</a></li>
-                        <li><a href="{{ route('responsables') }}">Responsables</a></li>
-                            <li><a href="{{ route('catalogos') }}">Tipos de herramientas</a></li>
-                            <li><a href="{{ route('herramientas') }}">Herramientas</a></li>
-                        @endguest
-                    </ul>
-					
+				
 					
                 </div>
             </div>
@@ -89,13 +94,26 @@
           <h1 class="page-header">
          @yield('title')
          </h1>
-    
+     @guest
+                           
+     @else
         
         @yield('content')
+    @endguest    
+        
+        
     </div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+  
+	<!-- Scripts -->
+          
+        <script src="{{ asset('assets/js/jquery.js') }}"></script>
+          <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+          <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+          <script src="{{ asset('assets/js/wickedpicker.js') }}"></script>
+         
+    
+     
     
     <script>         
 $(document).ready(function(){
@@ -140,7 +158,7 @@ $(document).ready(function(){
          alert("Pls select only images");
      }
  });
-  $("#imageFotoUpload2").on('change', function () {
+ $("#imageFotoUpload2").on('change', function () {
 
      //Get count of selected files
      var countFiles = $(this)[0].files.length;
@@ -163,6 +181,46 @@ $(document).ready(function(){
                  reader.onload = function (e) {
                      
                      $("<img />", {"src": e.target.result,"class": "thumb-image","style":"width:220px;height:280px"}).appendTo(image_holder);
+                     
+                     // $(image_holder).html("<img src='" + e.target.result + "' />");
+                       console.log($(image_holder).html());
+                     console.log("<img src='" + e.target.result + "'/>");
+                 };
+
+                 //image_holder.show();
+                 reader.readAsDataURL($(this)[0].files[i]);
+             }
+
+         } else {
+             alert("This browser does not support FileReader.");
+         }
+     } else {
+         alert("Pls select only images");
+     }
+ });
+ $("#imageFotoUpload3").on('change', function () {
+
+     //Get count of selected files
+     var countFiles = $(this)[0].files.length;
+
+     var imgPath = $(this)[0].value;
+     var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+     var image_holder = $("#image-holder3");
+     image_holder.empty();
+
+
+     if (extn === "gif" || extn === "png" || extn === "jpg" || extn === "jpeg") {
+
+            if (typeof (FileReader) !== "undefined") {
+
+
+             //loop for each file selected for uploaded.
+             for (var i = 0; i < countFiles; i++) {
+
+                 var reader = new FileReader();
+                 reader.onload = function (e) {
+                     
+                     $("<img />", {"src": e.target.result,"class": "thumb-image","style":"width:120px;height:140px"}).appendTo(image_holder);
                      
                      // $(image_holder).html("<img src='" + e.target.result + "' />");
                        console.log($(image_holder).html());

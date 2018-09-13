@@ -28,24 +28,80 @@ Modificar
             @endforeach
         </div>
         @endif
-                    
-                    
+        
+         {!! Form::open(array('action' => 'HerramientasController@agregarImagen', 'files' => true)) !!}
+         {!! Form::hidden('id',$Herramienta->id) !!}
+        <h5><strong>Fotográfias:</strong></h5>   
+        
+           
+                
+                        
+ 
+    @foreach( $photos as $photo )
+       <div class="form-group">
+     
+           <img class="img-fluid" src="{{url("uploaded_folder/fotos_herramientas/{$photo->id_herramienta}/{$photo->archivo}") }}" alt="{{ $photo->title }}" height="140" width="120">
+              <div class="col-md-6">
+                 <h3>{{ $photo->title }}</h3>
+                 <h5>{{ $photo->descriptoin }}</h5>
+              
+           </div>
+       </div>
+    @endforeach
+   
+     
+<br/>       
+       
+ <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>         
+             <h5><strong>Agregar otras imagénes:</strong></h5> 
+ <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
+ 
+        <div id='image-holder3' style='display: inline-block;width:120px;height:140px;border:1px solid black;'></div>
+                   
+    
+   
+    {!! Form::file('image',['class' => 'form-control','id'=>'imageFotoUpload3']) !!}    
+       <br/>
+     
+      
+                 <div class="form-group">
+        {!! Form::label('label1', 'Titulo:',['class' => 'col-md-1 control-label']); !!}
+        <div class="col-md-4">
+        {!! Form::text('title', '', ['class' => 'form-control']); !!}
+          
+                    </div>
+                 </div>
+             
+               <div class='clearfix'></div>
+                <br/>
+    
+      
+                        <div class="form-group">
+        {!! Form::label('label1', 'Descripción:',['class' => 'col-md-1 control-label']); !!}
+         {!! Form::textarea('description', '', ['class' => 'form-control', 'rows'=>'4']); !!}
+          
+        
+                    </div>
+                
+      {!! Form::submit('Agregar imagén'); !!}
+     {!! Form::close() !!}   
+        
+     
                     {!! Form::open(array('action' => 'HerramientasController@modificar', 'files' => true)) !!}
                      {!! Form::hidden('id',$Herramienta->id) !!}
-                <h5><strong>Fotográfia:</strong></h5>     
-                    <div class="col-md-8">
-                        <div id='image-holder2' style='display: inline-block;width:220px;height:280px;border:1px solid black;'>
-                            <img src="{!! $curpath !!}" height="280" width="220">
-                        </div>
-    
-    
-    <br>
-    {!! Form::file('image',['class' => 'form-control','id'=>'imageFotoUpload2']) !!}
+              
+                        
 
-</div>
+ 
 
-             <div class='clearfix'></div>              
-                    
+
+                      
+        
+                <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>         
+             <h5><strong>Información de la herramienta:</strong></h5> 
+ <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
+ 
+             
              
              <br/>
              
@@ -72,7 +128,7 @@ Modificar
  <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
  
                        <div class="form-group @if ($errors->has('desc')) has-error @endif">
-        {!! Form::label('label1', 'Marca:',['class' => 'col-md-1 control-label']); !!}
+        {!! Form::label('label1', 'Marca:',['class' => 'col-md-2 control-label']); !!}
          <div class="col-md-4">
         {!! Form::text('marca', $Herramienta->marca, ['class' => 'form-control']); !!}
          @if ($errors->has('marca')) <p class="help-block">{{ $errors->first('marca') }}</p> @endif
@@ -84,7 +140,7 @@ Modificar
              
  
                <div class="form-group @if ($errors->has('modelo')) has-error @endif">
-        {!! Form::label('label1', 'Modelo:',['class' => 'col-md-1 control-label']); !!}
+        {!! Form::label('label1', 'Modelo:',['class' => 'col-md-2 control-label']); !!}
         <div class="col-md-4">
         {!! Form::text('modelo', $Herramienta->modelo, ['class' => 'form-control']); !!}
          @if ($errors->has('modelo')) <p class="help-block">{{ $errors->first('modelo') }}</p> @endif
@@ -127,7 +183,34 @@ Modificar
 {!! Form::select('id_estadoequipo', $estadosHerramienta, $Herramienta->id_estadoequipo, ['class' => 'form-control']); !!}
 </div>
 </div>     
+                    <div class='clearfix'></div>     
+                    
+                    
+<hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
+ 
+ 
+ 
+                  <div class="form-group">
+{!! Form::label('label22', 'Responsable:', ['class' => 'col-md-3 control-label']); !!}
+<div class="col-md-4">
+{!! Form::select('id_responsable', $responsables, $Herramienta->id_responsable, ['class' => 'form-control']); !!}
+</div>
+</div>     
+                    <div class='clearfix'></div> 
+ <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
+ 
+ 
+ 
+                  <div class="form-group">
+{!! Form::label('label22', 'Ubicación de la herramienta:', ['class' => 'col-md-4 control-label']); !!}
+<div class="col-md-4">
+{!! Form::select('id_obra', $ubicaciones, $Herramienta->id_obra, ['class' => 'form-control']); !!}
+</div>
+</div>     
                     <div class='clearfix'></div>          
+  <br/>
+                     
+                    
  
  <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>                     
                     
@@ -151,10 +234,14 @@ Modificar
 
   <div class='clearfix'></div>  <br/>
   
+  
+  
+  
+  
   <div class="form-group">
                 
         {!! Form::label('label1', 'Supervisor y Fecha:'); !!}
-        {!! Form::date('name', \Carbon\Carbon::now()); !!}
+        {!! Form::date('supervisor', \Carbon\Carbon::now()); !!}
         
         
                     </div>
@@ -162,6 +249,7 @@ Modificar
  <br/><br/>
  
                   {!! Form::submit('Modificar'); !!}
+                  {!! Form::close() !!}
             </div>
                     
                     

@@ -12,6 +12,6 @@ class Herramienta_Fotos extends Model
    
     
       protected $fillable = [
-        'id_responsable', 'archivo','type','size',
+        'id_responsable', 'archivo','type','size','title','description'
     ];
 }
