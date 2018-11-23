@@ -26,10 +26,10 @@ class HerramientaCreateRequest extends FormRequest
       return [
         'desc' => 'required',
          'clave' => 'required', 
-        'cantidad' => 'required|min:1',
+        'cantidad' => 'required|min:1|numeric',
           'modelo' => 'required',
           'marca' => 'required',
-          'costo' => 'required|min:1',
+          'costo' => 'required|min:1|numeric',
           
     ];
     }
@@ -47,6 +47,8 @@ class HerramientaCreateRequest extends FormRequest
         'modelo.required' => 'Añade un :attribute',
         'costo.min' => 'El :attribute debe ser mínimo 1',
         'costo.required' => 'El :attribute debe ser mínimo 1',
+        'costo.numeric' => 'El :attribute debe ser un valor númerico',
+        'cantidad.numeric' => 'La :attribute debe ser un valor númerico',
     ];
 }
     

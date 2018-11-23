@@ -11,7 +11,7 @@
     <title>Arke</title>
 
        
-               <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+             <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
              <link href="{{ asset('assets/css/jquery-ui.css') }}" rel="stylesheet">
              <link href="{{ asset('assets/css/wickedpicker.css') }}" rel="stylesheet">
              
@@ -49,12 +49,36 @@
                       @guest
                            
                         @else
+                        
+                        @if(Auth::user()->type==1 || Auth::user()->type==2) 
                         <li><a href="{{ route('obras') }}">Obras</a></li>
-                        <li><a href="{{ route('responsables') }}">Responsables</a></li>
-                            <li><a href="{{ route('catalogos') }}">Tipos de herramientas</a></li>
-                            <li><a href="{{ route('herramientas') }}">Herramientas</a></li>
-                            <li><a href="{{ route('ubicaciones') }}">Cambios de ubicación</a></li>
-                        @endguest
+                        @endif
+                       
+                         
+                        @if(Auth::user()->type==1) 
+                        <li><a href="{{ route('catalogos') }}">Tipos</a></li>
+                        @endif
+                        
+                        @if(Auth::user()->type==1 || Auth::user()->type==2) 
+                        <li><a href="{{ route('herramientas') }}">Herramientas</a></li>
+                        @endif
+                        
+                        <li><a href="{{ route('ubicaciones') }}">Ubicación</a></li>
+                        
+                       @if(Auth::user()->type==1 || Auth::user()->type==2) 
+                        <li><a href="{{ route('mantenimientos') }}">Mantenimientos</a></li>
+                       @endif
+                       
+                       @if(Auth::user()->type==1) 
+                        <li><a href="{{ route('usuarios') }}">Usuarios App</a></li>
+                       @endif
+                       
+                       @if(Auth::user()->type==1) 
+                        <li><a href="{{ route('reportes') }}">Reportes</a></li>
+                       @endif
+                       
+                       
+                       @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -62,7 +86,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Registro</a></li>
+                          
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
@@ -94,12 +118,8 @@
           <h1 class="page-header">
          @yield('title')
          </h1>
-     @guest
-                           
-     @else
-        
+       
         @yield('content')
-    @endguest    
         
         
     </div>
@@ -238,7 +258,15 @@ $(document).ready(function(){
          alert("Pls select only images");
      }
  });
-  
+ 
+ $('table[data-form="deleteForm"]').on('click', '.form-delete', function(e){
+    e.preventDefault();
+    var $form=$(this);
+    $('#confirm').modal({ backdrop: 'static', keyboard: false })
+        .on('click', '#delete-btn', function(){
+            $form.submit();
+        });
+}); 
     
 });
 </script>

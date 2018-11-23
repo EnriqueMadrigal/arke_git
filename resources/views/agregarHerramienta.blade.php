@@ -128,13 +128,30 @@ Agregar
 {!! Form::select('id_estadoequipo', $estadosHerramienta, 1, ['class' => 'form-control']); !!}
 </div>
 </div>     
+  
+   
                     <div class='clearfix'></div>          
  <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
+ 
+ 
+                  <div class="form-group">
+{!! Form::label('label28', 'Activo:', ['class' => 'col-md-3 control-label']); !!}
+<div class="col-md-8">
+{!!  Form::checkbox('active', '1', true); !!}
+<div class="text-info">Nota: Solo las herramientas activas, aparecen dentro de los reportes.</div>
+</div>
+</div>     
+  
+   
+                    <div class='clearfix'></div>          
+ <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
+ 
+ 
  
   <div class="form-group">
 {!! Form::label('label22', 'Responsable:', ['class' => 'col-md-3 control-label']); !!}
 <div class="col-md-4">
-{!! Form::select('id_responsable', $responsables, 1, ['class' => 'form-control']); !!}
+{!! Form::select('id_responsable', $responsables, 0, ['class' => 'form-control']); !!}
 </div>
 </div>     
                     <div class='clearfix'></div> 
@@ -143,7 +160,7 @@ Agregar
                   <div class="form-group">
 {!! Form::label('label22', 'Ubicación de la herramienta:', ['class' => 'col-md-4 control-label']); !!}
 <div class="col-md-4">
-{!! Form::select('id_obra', $ubicaciones, 1, ['class' => 'form-control']); !!}
+{!! Form::select('id_obra', $ubicaciones, 0, ['class' => 'form-control']); !!}
 </div>
 </div>     
                     <div class='clearfix'></div>          

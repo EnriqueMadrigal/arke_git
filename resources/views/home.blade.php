@@ -11,6 +11,8 @@ DashBoard
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
 
+                     <img border="0" src="{{ asset('images/logo1.JPG') }}" class="img-responsive center-block" >
+          
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -18,7 +20,7 @@ DashBoard
                         </div>
                     @endif
 
-                    You are logged in!
+                    
                 </div>
             </div>
         </div>

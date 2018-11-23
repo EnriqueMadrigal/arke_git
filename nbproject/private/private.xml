@@ -4,19 +4,26 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/arke/resources/views/layouts/app.blade.php</file>
-            <file>file:/C:/xampp/htdocs/arke/app/Ubicacion_Herramienta.php</file>
-            <file>file:/C:/xampp/htdocs/arke/config/app.php</file>
+            <file>file:/C:/xampp/htdocs/arke/app/Http/Controllers/AppCatalogoController.php</file>
             <file>file:/C:/xampp/htdocs/arke/app/Http/Controllers/UbicacionesController.php</file>
-            <file>file:/C:/xampp/htdocs/arke/database/migrations/2018_08_27_212631_create_herramienta__fotos_table.php</file>
+            <file>file:/C:/xampp/htdocs/arke/resources/views/reportespdf.blade.php</file>
+            <file>file:/C:/xampp/htdocs/arke/app/Mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/arke/app/Http/Controllers/MantenimientosController.php</file>
             <file>file:/C:/xampp/htdocs/arke/app/Http/Controllers/HerramientasController.php</file>
-            <file>file:/C:/xampp/htdocs/arke/resources/views/verHistorial.blade.php</file>
-            <file>file:/C:/xampp/htdocs/arke/resources/views/cambiarHerramienta.blade.php</file>
-            <file>file:/C:/xampp/htdocs/arke/resources/views/ubicaciones.blade.php</file>
+            <file>file:/C:/xampp/htdocs/arke/resources/views/reporteEncargado.blade.php</file>
+            <file>file:/C:/xampp/htdocs/arke/app/Http/Controllers/AppUserController.php</file>
+            <file>file:/C:/xampp/htdocs/arke/app/Http/Controllers/AppHerramientasController.php</file>
+            <file>file:/C:/xampp/htdocs/arke/app/Permisos_Usuario.php</file>
+            <file>file:/C:/xampp/htdocs/arke/resources/views/reporteGeneral.blade.php</file>
+            <file>file:/C:/xampp/htdocs/arke/resources/views/reportepdfnoencargado.blade.php</file>
+            <file>file:/C:/xampp/htdocs/arke/routes/api.php</file>
+            <file>file:/C:/xampp/htdocs/arke/resources/views/reportepdfnoobra.blade.php</file>
+            <file>file:/C:/xampp/htdocs/arke/database/seeds/DatabaseSeeder.php</file>
             <file>file:/C:/xampp/htdocs/arke/app/Http/Requests/HerramientaCreateRequest.php</file>
-            <file>file:/C:/xampp/htdocs/arke/resources/views/agregarHerramienta.blade.php</file>
-            <file>file:/C:/xampp/htdocs/arke/database/migrations/2018_09_06_201216_add_titledesc_to_herramientasfoto.php</file>
+            <file>file:/C:/xampp/htdocs/arke/app/Http/Controllers/ReportesController.php</file>
             <file>file:/C:/xampp/htdocs/arke/routes/web.php</file>
-            <file>file:/C:/xampp/htdocs/arke/resources/views/editarHerramienta.blade.php</file>
+            <file>file:/C:/xampp/htdocs/arke/database/seeds/PermisosUsuariosTableSeeder.php</file>
+            <file>file:/C:/xampp/htdocs/arke/resources/views/reporteObra.blade.php</file>
         </group>
     </open-files>
 </project-private>

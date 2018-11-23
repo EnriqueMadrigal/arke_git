@@ -77,7 +77,7 @@ Modificar
     
       
                         <div class="form-group">
-        {!! Form::label('label1', 'Descripción:',['class' => 'col-md-1 control-label']); !!}
+        {!! Form::label('label1', 'Descripción de la imagén:',['class' => 'col-md-6 control-label']); !!}
          {!! Form::textarea('description', '', ['class' => 'form-control', 'rows'=>'4']); !!}
           
         
@@ -191,28 +191,25 @@ Modificar
  
  
                   <div class="form-group">
-{!! Form::label('label22', 'Responsable:', ['class' => 'col-md-3 control-label']); !!}
-<div class="col-md-4">
-{!! Form::select('id_responsable', $responsables, $Herramienta->id_responsable, ['class' => 'form-control']); !!}
+{!! Form::label('label28', 'Activo:', ['class' => 'col-md-3 control-label']); !!}
+<div class="col-md-8">
+
+ @if($Herramienta->active==1)    
+{!!  Form::checkbox('active', '1', true); !!}
+@else
+{!!  Form::checkbox('active', '1', false); !!}
+@endif
+
+
+<div class="text-info">Nota: Solo las herramientas activas, aparecen dentro de los reportes.</div>
 </div>
 </div>     
-                    <div class='clearfix'></div> 
- <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
- 
- 
- 
-                  <div class="form-group">
-{!! Form::label('label22', 'Ubicación de la herramienta:', ['class' => 'col-md-4 control-label']); !!}
-<div class="col-md-4">
-{!! Form::select('id_obra', $ubicaciones, $Herramienta->id_obra, ['class' => 'form-control']); !!}
-</div>
-</div>     
+  
+   
                     <div class='clearfix'></div>          
-  <br/>
-                     
+ <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>                                         
                     
  
- <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>                     
                     
          <div class="form-group @if ($errors->has('costo')) has-error @endif">
         {!! Form::label('label1', 'Costo:',['class' => 'col-md-1 control-label']); !!}
@@ -241,8 +238,9 @@ Modificar
   <div class="form-group">
                 
         {!! Form::label('label1', 'Supervisor y Fecha:'); !!}
-        {!! Form::date('supervisor', \Carbon\Carbon::now()); !!}
-        
+         {!! Form::date('supervisor',  \Carbon\Carbon::createFromDate($year,$month,$day)->format('Y-m-d')); !!}
+ 
+       
         
                     </div>
  

@@ -7,7 +7,7 @@ Ubicación de las herramientas
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                
 
@@ -24,18 +24,30 @@ Ubicación de las herramientas
     {!! session('message.content') !!}
     </div>
 @endif
-
+  <div class="text-right form-inline">
+                    {!! Form::open(array('action' => 'UbicacionesController@index', 'method' => 'post', 'name' => 'orderClave')) !!}
+                    {!! Form::text('busqueda', '' , ['class' => 'form-control']); !!}
+                    {!! Form::submit(trans('Buscar'), ['class' => 'btn btn-default' ]) !!}
+                    {!! Form::close() !!}
+  </div>
                    
                     <table class="table table-striped task-table">
 
                     <!-- Table Headings -->
                     <thead>
-                        <th>Herramienta</th>
-                        <th>Ubicación Actual</th>
-                        <th>Responsable</th>
-                        <th>Ver historial</th>
-                        
-                        <th>&nbsp;</th>
+                       <th>
+                       {!! Form::open(array('action' => 'UbicacionesController@index', 'method' => 'post', 'class' =>'form-inline', 'name' => 'orderClave')) !!}
+                       {!! Form::hidden('orderByClave', 'clave'); !!}
+                       {!! Form::submit(trans('Clave'), ['class' => 'btn btn-xs btn-link' ]) !!}
+                       {!! Form::close() !!}
+                        </th>
+                        <th>
+                       {!! Form::open(array('action' => 'UbicacionesController@index', 'method' => 'post', 'class' =>'form-inline', 'name' =>'orderDesc')) !!}
+                       {!! Form::hidden('orderByDesc', 'desc'); !!}
+                       {!! Form::submit(trans('Descripción'), ['class' => 'btn btn-xs btn-link' ]) !!}
+                       {!! Form::close() !!}
+                        </th>
+                  
      
                     </thead>
 
@@ -45,7 +57,12 @@ Ubicación de las herramientas
                             <tr>
                                 <!-- Task Name -->
                                 
-                                
+                                <td class="table-text">
+                                    
+                                    <div><a href="{{ route('verEquipos', $herramienta->id ) }}">{{ $herramienta->clave }} </a></div>
+
+                                </td>
+
                                 
                                 <td class="table-text">
                                     
@@ -53,27 +70,8 @@ Ubicación de las herramientas
                                     <div>{{ $herramienta->desc }}</div>
                                 </td>
 
-                                 <td><div>{{ $herramienta->obra->nombre }}</div></td>
-                                 <td><div>{{ "{$herramienta->responsable->nombre} {$herramienta->responsable->apellidos}"}}</div></td>
-                               
-                                  <td>
-                                    
-                                    <!-- TODO: Delete Button -->
-                                 <div><a href="{{ route('verHistorial', $herramienta->id ) }}" class="btn btn-primary" role="button"><i class="fa fa-server">H</i>
-                                 </a></div>
-                                 
-                                                             
-                               
-                               
-                                 <td>
-                                    
-                                    <!-- TODO: Delete Button -->
-                                 <div><a href="{{ route('cambiarHerramienta', $herramienta->id ) }}" class="btn btn-primary" role="button">Cambiar Ubicación
-                                 </a></div>
-                                    
-                                 
-                                
-                                </td>
+                                  
+                             
                             </tr>
                         @endforeach
                     </tbody>

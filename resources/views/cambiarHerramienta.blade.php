@@ -32,25 +32,23 @@ Cambiar la ubicación
       
      
                     {!! Form::open(array('action' => 'UbicacionesController@cambiar', 'files' => true)) !!}
-                     {!! Form::hidden('id',$Herramienta->id) !!}
+                     {!! Form::hidden('id',$herramienta->id) !!}
+                     {!! Form::hidden('no_equipo',$numEquipo) !!}
               
                            
         
-                <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>         
-             <h5>Herramienta: <strong>{{ $Herramienta->desc }}</strong></h5> 
- <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
+                <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>  
+                                   
+<h5>{{ $herramienta->clave }},{{ $herramienta->desc }}, Num. Equipo:{{ $numEquipo }}</h5>
+
+            <hr style='border-width: 4px; background-color:#f3f6db; color:#f3f6db;'>    
  
-             
-      
-         
- 
- 
- 
+        
  
                   <div class="form-group">
 {!! Form::label('label22', 'Responsable:', ['class' => 'col-md-3 control-label']); !!}
 <div class="col-md-4">
-{!! Form::select('id_responsable', $responsables, $Herramienta->id_responsable, ['class' => 'form-control']); !!}
+{!! Form::select('id_responsable', $responsables, 1, ['class' => 'form-control']); !!}
 </div>
 </div>     
                     <div class='clearfix'></div> 
@@ -61,7 +59,7 @@ Cambiar la ubicación
                   <div class="form-group">
 {!! Form::label('label22', 'Ubicación de la herramienta:', ['class' => 'col-md-3 control-label']); !!}
 <div class="col-md-4">
-{!! Form::select('id_obra', $ubicaciones, $Herramienta->id_obra, ['class' => 'form-control']); !!}
+{!! Form::select('id_obra', $ubicaciones, 1, ['class' => 'form-control']); !!}
 </div>
 </div>     
                     <div class='clearfix'></div>          

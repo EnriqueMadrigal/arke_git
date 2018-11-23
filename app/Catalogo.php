@@ -13,4 +13,12 @@ class Catalogo extends Model
         'desc'
     ];
 
+    
+        public function Foto()
+    {
+       // return $this->belongsTo('App\Obra', 'id_obra', 'id');
+         return $this->hasOne('App\Catalogo_fotos', 'id_catalogo', 'id');
+       
+    }  
+    
 }

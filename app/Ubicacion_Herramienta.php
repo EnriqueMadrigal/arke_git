@@ -8,9 +8,10 @@ class Ubicacion_Herramienta extends Model
 {
     //
     public $timestamps = true;
+      protected $table = 'ubicacion__herramientas';
     
       protected $fillable = [
-        'id_herramienta','id_obra','id_responsable', 'started_at','ended_at'
+        'id_herramienta','id_obra','id_responsable', 'started_at','ended_at','id_usuario','no_equipo'
     ];
       
       
@@ -24,7 +25,7 @@ class Ubicacion_Herramienta extends Model
      public function responsable()
     {
        // return $this->belongsTo('App\Obra', 'id_obra', 'id');
-         return $this->hasOne('App\Responsable', 'id', 'id_responsable');
+         return $this->hasOne('App\Usuario', 'id', 'id_responsable');
        
     }  
       
@@ -35,5 +36,13 @@ class Ubicacion_Herramienta extends Model
        
     }  
       
+        public function usuario()
+    {
+       // return $this->belongsTo('App\Obra', 'id_obra', 'id');
+         return $this->hasOne('App\User', 'id', 'id_usuario');
+       
+    }  
+    
+    
 }
 

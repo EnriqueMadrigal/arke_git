@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Ubicaciones de la herramienta
+Historial de la herramienta
 @endsection
 
 @section('content')
@@ -26,7 +26,7 @@ Ubicaciones de la herramienta
 @endif
 
                    
-<h5>{{ $herramienta->desc }}</h5>
+<h5>{{ $herramienta->clave }},{{ $herramienta->desc }}, Num. Equipo:{{ $numEquipo }}</h5>
 
                     <table class="table table-striped task-table">
 
@@ -36,6 +36,7 @@ Ubicaciones de la herramienta
                         <th>Responsable</th>
                         <th>De:</th>
                         <th>Hasta:</th>
+                        <th>Cambiado por:</th>
                         
      
                     </thead>
@@ -49,11 +50,11 @@ Ubicaciones de la herramienta
                                 
                                 
                                 <td class="table-text">
-                                       <div>{{ $ubicacion->obra->nombre }}</div>
+                                       <div>@if ($ubicacion->obra) {{ $ubicacion->obra->nombre }} @else ----- @endif</div>
                                 </td>
 
                                  <td class="table-text">
-                                       <div>{{ $ubicacion->responsable->nombre }}</div>
+                                       <div>@if ($ubicacion->responsable) {{ $ubicacion->responsable->nombre }} @else ----- @endif</div>
                                 </td>
 
                                
@@ -61,10 +62,13 @@ Ubicaciones de la herramienta
                                        <div> {{ \Carbon\Carbon::parse($ubicacion->started_at)->format('d/m/Y')}}</div>
                                 </td>
 
-                                 <td class="table-text">
+                                <td class="table-text">
                                      <div>@if ($ubicacion->ended_at) {{ \Carbon\Carbon::parse($ubicacion->ended_at)->format('d/m/Y')}} @else ----- @endif</div>
-                                        
-                              
+                                </td>
+
+                            
+                                <td class="table-text">
+                                     <div>@if ($ubicacion->usuario) {{ $ubicacion->usuario->name }} @else ----- @endif</div>
                                 </td>
 
                                 

@@ -5,24 +5,52 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Herramienta;
 use App\Herramienta_Fotos;
-
+use App\Usuario;
 use App\Estado_Equipo;
 use App\Catalogo;
 use App\Obra;
-use App\Responsable;
+use App\Mantenimiento;
 use App\Ubicacion_Herramienta;
 use Session;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\HerramientaCreateRequest;
+use Illuminate\Support\Facades\Auth;
 
 class HerramientasController extends Controller
 {
-    public function index()
+    
+    public function __construct()
+{
+    $this->middleware('auth');
+}
+    
+    public function index(Request $request)
     {
         
             $herramientas = Herramienta::orderBy('id', 'asc')->get();
 
+            
+            if ($request->has("orderByClave"))
+            {
+                $herramientas = Herramienta::orderBy('clave', 'asc')->get();
+            }
+            
+            if ($request->has("orderByDesc"))
+            {
+                $herramientas = Herramienta::orderBy('desc', 'asc')->get();
+            }
+                
+            if ($request->has("busqueda"))
+            {
+                
+                $Busqueda = $request->get("busqueda");
+                $herramientas = Herramienta::where('clave','like',"%".$Busqueda."%")->orderBy('clave', 'asc')->get();
+                $herramientas2 = Herramienta::where('desc','like',"%".$Busqueda."%")->orderBy('desc', 'asc')->get();
+                        
+                        $herramientas = $herramientas->merge($herramientas2);
+            }
+            
     return view('herramientas', [
         'herramientas' => $herramientas
     ]);
@@ -33,12 +61,40 @@ class HerramientasController extends Controller
     public function deleteHerramienta($id)
     {
         
-           $herramientas = Herramienta::orderBy('id', 'asc')->get();
+         $herramienta = Herramienta::find($id);
+         $photos = Herramienta_Fotos::where('id_herramienta', $id)->get();
+      
+         foreach($photos as $photo)
+         {
+             
+              $file_save_folder = "uploaded_folder".DIRECTORY_SEPARATOR."fotos_herramientas".DIRECTORY_SEPARATOR.$id.DIRECTORY_SEPARATOR.$photo->archivo;
+      
+                  $curPath = public_path($file_save_folder);
+                                                                        
+                        if (file_exists($curPath))
+                        {
+                            unlink($curPath);
+                        }
+        
+             
+         }
+         
+         
+         
+         $herramienta->delete();
+         
+         $deletedRows = Mantenimiento::where('id_herramienta', $id)->delete();
+        $deletedRows = Ubicacion_Herramienta::where('id_herramienta', $id)->delete();
+        $deletedRows = Herramienta_Fotos::where('id_herramienta', $id)->delete();
+           
+       
+       
+        
+        
+            return redirect('herramientas');
+           
 
-    return view('herramientas', [
-        'herramientas' => $herramientas
-    ]);
-          
+       
         
         
     }
@@ -48,9 +104,19 @@ class HerramientasController extends Controller
           $estadosHerramienta = Estado_Equipo::all(['id', 'desc'])->pluck('desc', 'id');
           $catalogosHerramienta = Catalogo::all(['id', 'desc'])->pluck('desc', 'id');
           $ubicaciones = Obra::all(['id', 'desc'])->pluck('desc', 'id');
-          $responsables = Responsable::all(['id', 'nombre'])->pluck('nombre', 'id');
-        
-        return view('agregarHerramienta', ['catalogosHerramienta' => $catalogosHerramienta, 'estadosHerramienta' => $estadosHerramienta,'ubicaciones'=>$ubicaciones,'responsables'=>$responsables]);
+          //$responsables = Usuario::all(['id', 'nombre','apellidos'])->pluck('nombre', 'id');
+          // DB::raw("concat(nombre, ' ','apellidos') as full_name"
+          $responsables = Usuario::all(['id', DB::raw("concat(nombre, ' ',apellidos) as full_name")])->pluck('full_name', 'id');
+          
+       $ubicaciones = collect(['0' => 'Sin asignar'] + $ubicaciones->all());
+       $responsables = collect(['0' => 'No asignado'] + $responsables->all());
+       
+          
+                    
+          
+          
+          //return view('debug',['datos'=>$ubicaciones]);
+       return view('agregarHerramienta', ['catalogosHerramienta' => $catalogosHerramienta, 'estadosHerramienta' => $estadosHerramienta,'ubicaciones'=>$ubicaciones,'responsables'=>$responsables]);
     }
     
      
@@ -59,14 +125,13 @@ class HerramientasController extends Controller
     
       public function agregar(HerramientaCreateRequest $request) 
     {
-             
-          
-          
+           //  return view("debug",['datos'=>$request]);
+                 
          $herramienta = new Herramienta;
          
           $nueva_ubicacion = $request->get('id_obra');
           $nuevo_responsable = $request->get('id_responsable');
-        
+        $cantidad = $request->get('cantidad');
          
          $herramienta->clave = $request->get('clave');
          $herramienta->modelo = $request->get('modelo');
@@ -75,12 +140,22 @@ class HerramientasController extends Controller
          $herramienta->capacidad = $request->get('capacidad');
          $herramienta->id_estadoequipo = $request->get('id_estadoequipo');
          $herramienta->id_tipo = $request->get('id_tipo');
-         $herramienta->cantidad = $request->get('cantidad');
+         $herramienta->cantidad = $cantidad;
          $herramienta->costo = $request->get('costo');
          $herramienta->supervisor = $request->get('supervisor');
-         $herramienta->id_obra = $nueva_ubicacion;
-         $herramienta->id_responsable = $nuevo_responsable;
+        // $herramienta->id_obra = $nueva_ubicacion;
+         //$herramienta->id_responsable = $nuevo_responsable;
        
+         if ($request->has("active"))
+         {
+             $herramienta->active=1;
+         }
+         
+         else
+         {
+             $herramienta->active=0;
+         }
+         
           $herramienta->save();
          
            $new_id = $herramienta->id;
@@ -120,13 +195,15 @@ class HerramientasController extends Controller
      // $curfile->move($curPath, $imageName);
                         $curfile->move($curPath, $newFileName);
 
+                        
+                          
+                        
       $herramienta_foto = new Herramienta_Fotos;
       $herramienta_foto->id_herramienta = $new_id;
       $herramienta_foto->archivo = $newFileName;
       $herramienta_foto->type = $filetype;
       $herramienta_foto->size = $filesize;
       $herramienta_foto->save();
-      
       
       
                   
@@ -136,7 +213,8 @@ class HerramientasController extends Controller
   }
   
   
-         
+         for ($i = 1; $i <= $cantidad; $i++) {
+    
           //Agregar el nuevo historial
           $nuevaUbicacion = new Ubicacion_Herramienta;
           
@@ -144,9 +222,9 @@ class HerramientasController extends Controller
           $nuevaUbicacion->id_obra = $nueva_ubicacion;
           $nuevaUbicacion->id_responsable = $nuevo_responsable;
           $nuevaUbicacion->started_at = Carbon::now();
+          $nuevaUbicacion->no_equipo = $i;
           $nuevaUbicacion->save();
-  
-  
+         }
   
          Session::flash('success', 'Datos Agregados correctamente');  
           return redirect('herramientas');
@@ -162,10 +240,16 @@ class HerramientasController extends Controller
         
         $estadosHerramienta = Estado_Equipo::all(['id', 'desc'])->pluck('desc', 'id');
           $catalogosHerramienta = Catalogo::all(['id', 'desc'])->pluck('desc', 'id');
-          $ubicaciones = Obra::all(['id', 'desc'])->pluck('desc', 'id');
-          $responsables = Responsable::all(['id', 'nombre'])->pluck('nombre', 'id');
+         // $ubicaciones = Obra::all(['id', 'desc'])->pluck('desc', 'id');
+         // $responsables = Responsable::all(['id', 'nombre'])->pluck('nombre', 'id');
         
-        
+          $date = \Carbon\Carbon::parse($herramienta->supervisor);
+
+    $day = $date->day;
+    $month = $date->month;
+    $year = $date->year;
+       
+       
         
         
        /* 
@@ -186,7 +270,7 @@ class HerramientasController extends Controller
                  
         
        
-        return view('editarHerramienta', ['Herramienta'=>$herramienta, 'photos'=>$photos,'catalogosHerramienta' => $catalogosHerramienta, 'estadosHerramienta' => $estadosHerramienta, 'ubicaciones'=>$ubicaciones,'responsables'=>$responsables]);
+        return view('editarHerramienta', ['Herramienta'=>$herramienta, 'photos'=>$photos,'catalogosHerramienta' => $catalogosHerramienta, 'estadosHerramienta' => $estadosHerramienta, 'day'=>$day,'month'=>$month,'year'=>$year]);
    
        
     }
@@ -198,8 +282,6 @@ class HerramientasController extends Controller
            $herramienta = Herramienta::find($cur_id);
           
       
-           $nueva_ubicacion = $request->get('id_obra');
-          $nuevo_responsable = $request->get('id_responsable');
            
          $herramienta->clave = $request->get('clave');
          $herramienta->modelo = $request->get('modelo');
@@ -211,9 +293,18 @@ class HerramientasController extends Controller
          $herramienta->cantidad = $request->get('cantidad');
          $herramienta->costo = $request->get('costo');
          $herramienta->supervisor = $request->get('supervisor');
-         $herramienta->id_obra = $nueva_ubicacion;
-         $herramienta->id_responsable = $nuevo_responsable;
-    
+      
+         
+           if ($request->has("active"))
+         {
+             $herramienta->active=1;
+         }
+         
+         else
+         {
+             $herramienta->active=0;
+         }
+         
        
           $herramienta->save();
    
@@ -289,7 +380,7 @@ class HerramientasController extends Controller
           ///
           
     }
-    
+    /*
          //Agregar al historial
              $lastUbicacion = Ubicacion_Herramienta::where('id_herramienta', $cur_id)->orderBy('id', 'desc')->first();
            
@@ -307,7 +398,7 @@ class HerramientasController extends Controller
           $nuevaUbicacion->id_responsable = $nuevo_responsable;
           $nuevaUbicacion->started_at = Carbon::now();
           $nuevaUbicacion->save();
-    
+    */
     
      Session::flash('success', 'Datos Agregados correctamente');  
           return redirect('herramientas');
@@ -338,7 +429,7 @@ class HerramientasController extends Controller
       $newFileName = "photo-".$curNum.".".$file_extension;
  
 
-    $file_save_folder = "uploaded_folder".DIRECTORY_SEPARATOR."fotos_herramientas".DIRECTORY_SEPARATOR."$cur_id".DIRECTORY_SEPARATOR;
+    $file_save_folder = "uploaded_folder".DIRECTORY_SEPARATOR."fotos_herramientas".DIRECTORY_SEPARATOR.$cur_id.DIRECTORY_SEPARATOR;
       
                   $curPath = public_path($file_save_folder);
                                                                         
@@ -364,6 +455,7 @@ class HerramientasController extends Controller
       $herramienta_foto->size = $filesize;
       $herramienta_foto->title = $title;
       $herramienta_foto->description = $description;
+      $herramienta_foto->id_usuario = Auth::user()->id_usuario;
       
       $herramienta_foto->save();
       
